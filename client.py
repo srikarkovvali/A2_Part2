@@ -53,11 +53,16 @@ def client():
         ready_for_read, ready_for_write, wait_for_error = select.select(sock_collection, [], [])
 
         # Iterate through readable sockets
-        for sock in ready_for_read:
-            if sock == client_sock:
+        size = len(ready_for_read)
+        pointer = 0
+        while(pointer != size-1):
+            sock = ready_for_read[pointer]
+
+
+            if client_sock == sock:
                 # Read bytes fom socket
                 Data = sock.recv(utils.MESSAGE_LENGTH)
-                if not Data:
+                if  Data == None:
                     print(utils.CLIENT_SERVER_DISCONNECTED.format(IP_ADDRESS, PORT))
                     sys.exit()
                 else:
@@ -72,6 +77,9 @@ def client():
                 client_sock.sendall(pad_message(msg).encode())
                 sys.stdout.write(utils.CLIENT_MESSAGE_PREFIX);
                 sys.stdout.flush()
+            pointer +=1
+
+
 
 
 if __name__ == "__main__":
