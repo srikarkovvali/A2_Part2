@@ -80,7 +80,5 @@ def client():
             pointer +=1
 
 
-
-
 if __name__ == "__main__":
     sys.exit(client())
