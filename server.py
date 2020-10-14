@@ -1,3 +1,4 @@
+import select
 import client
 from client_split_messages import *
 import sys
@@ -19,3 +20,16 @@ def chatserver():
 
     sockets.append(socket_s) #append the socket to connections
     while not False:
+        ready_for_read, ready_for_error, ready_for_write = select.select(sockets,[],[])
+
+
+
+def messaggebroadcast(server_socket, whichsock, channel, message):
+    if channel is None:
+        return
+    for x in channels[channel]:
+        if x !=server_socket and x!=whichsock:
+            x.sendall(pad_message(message).encode())
+
+if __name__ == "__main__":
+    sys.exit(chatserver())
